@@ -26,7 +26,7 @@ namespace CSharp_HomeWork_02
             do
             {
                 Console.Write("01. Personal Name (Ex: 'Jack'): ");
-                // TODO: Uncoment after implementation and remove default values
+                // TODO: Uncomment after implementation and remove default values
                 //firstName = Console.ReadLine();
                 firstName = "Jack";
                 if ((firstName.Length > 0) && (IsAllLettersOnly(firstName)))
@@ -49,7 +49,7 @@ namespace CSharp_HomeWork_02
             do
             {
                 Console.Write("02. Family Name ('Ex: Daniels'): ");
-                // TODO: Uncoment after implementation and remove default values
+                // TODO: Uncomment after implementation and remove default values
                 //lastName = Console.ReadLine();
                 lastName = "Daniels";
                 if ((lastName.Length > 0) && (IsAllLettersOnly(lastName)))
@@ -73,7 +73,7 @@ namespace CSharp_HomeWork_02
             do
             {
                 Console.Write("03. Personal ID (Ex: '8012056818'): ");
-                // TODO: Uncoment after implementation and remove default values
+                // TODO: Uncomment after implementation and remove default values
                 // employeeId = Console.ReadLine();
                 employeeId = "8212106644";
                 if ((employeeId.ToString().Length == 10) && IsAllDigitsOnly(employeeId))
@@ -97,7 +97,7 @@ namespace CSharp_HomeWork_02
             do
             {
                 Console.Write("04. Address (Ex: 'bul. Bulgaria No: 1'): ");
-                // TODO: Uncoment after implementation and remove default values
+                // TODO: Uncomment after implementation and remove default values
                 // address = Console.ReadLine();
                 address = "bul. Bulgaria No: 1";
                 if (address.Length > 4)
@@ -120,7 +120,7 @@ namespace CSharp_HomeWork_02
             do
             {
                 Console.Write("05. City (Ex: 'Sofia'): ");
-                // TODO: Uncoment after implementation and remove default values
+                // TODO: Uncomment after implementation and remove default values
                 // city = Console.ReadLine();
                 city = "Sofia";
                 if ((city.Length > 4) && IsAllLettersOnly(city))
@@ -143,7 +143,7 @@ namespace CSharp_HomeWork_02
             do
             {
                 Console.Write("06. Municipality (Ex: 'Triaditza'): ");
-                // TODO: Uncoment after implementation and remove default values
+                // TODO: Uncomment after implementation and remove default values
                 // municipality = Console.ReadLine();
                 municipality = "Triaditza";
                 if ((municipality.Length > 4) && IsAllLettersOnly(municipality))
@@ -166,9 +166,9 @@ namespace CSharp_HomeWork_02
             do
             {
                 Console.Write("07. Gross Salary (Ex: '100' ): ");
-                // TODO: Uncoment after implementation and remove default values
+                // TODO: Uncomment after implementation and remove default values
                 // grossSalary = Console.ReadLine();
-                grossSalary = "100";
+                grossSalary = "6500";
                 if ((grossSalary.ToString().Length > 2 && grossSalary.ToString().Length < 7) && IsAllDigitsOnly(grossSalary))
                     isCorrectSalary = true;
                 else
@@ -190,9 +190,9 @@ namespace CSharp_HomeWork_02
             do
             {
                 Console.Write("08. Work Experience (Ex: '1.9' years): ");
-                // TODO: Uncoment after implementation and remove default values
+                // TODO: Uncomment after implementation and remove default values
                 // workExperience = Console.ReadLine();
-                workExperience = "2.9";
+                workExperience = "15.9";
                 if (IsRealNumber(workExperience))
                     isCorrectExperience = true;
                 else
@@ -224,6 +224,7 @@ namespace CSharp_HomeWork_02
             Console.WriteLine($"06. Municipality: {municipality}");
             Console.WriteLine($"07. Gross Salary: {grossSalary}");
             Console.WriteLine($"08. Work Experience: {workExperience}");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Press any key to continue with calculations ...");
             Console.ReadKey();
             #endregion
@@ -232,37 +233,144 @@ namespace CSharp_HomeWork_02
 
             #region Gross Salary Indexation
             string workExperienceIndex = workExperience.ToString(CultureInfo.InvariantCulture);
-            string[] parts = workExperienceIndex.Split('.');
-            int salaryIndex = int.Parse(parts[0]);
-            // TODO: Calculate indexing for every year 
-            // 1st year 100 + (100 * (0,6 / 100)) 
-            // 2nd year 1st year salary + (1st year salary * (0,6 / 100)) 
-            decimal yearlySalaryIndex = Convert.ToDecimal(salaryIndex * 0.6); 
-            decimal indexedGrossSalary = Convert.ToDecimal(grossSalary) + yearlySalaryIndex;
+            string[] parts = workExperienceIndex.Split('.'); // Split value before and after decimal sign
+            int workExperienceFullYears = int.Parse(parts[0]); // Extract only value before decimal sign, to get only full years
+
+            double increaseSalaryPercent = 0.6;
+            decimal indexedGrossSalary = Convert.ToDecimal(grossSalary);
+            for (int i = 1; i <= workExperienceFullYears; i++)
+            {
+                indexedGrossSalary = indexedGrossSalary * Convert.ToDecimal( 1 + increaseSalaryPercent/100);
+            }
+            
             Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine($"Total Gross Salary for {workExperience} years of work experience is {indexedGrossSalary:C}");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Press any key to continue with calculations ...");
             Console.ReadKey();
             #endregion
 
-            #region Net Salary Calculation
+            #region Monthly Net Salary Calculation
+            decimal maxTaxableSalary = 2600;
+            decimal totalGrossSalary = Convert.ToDecimal(grossSalary);
+            decimal totalNetSalary = 0;
+            decimal salaryDeduction = 0;
             decimal pensionFund = 0;
             decimal pensionFundIndex = Convert.ToDecimal(6.58/100);
-            decimal totalGrossSalary = Convert.ToDecimal(grossSalary);
-            decimal notIndexedGrossSalary = 0;
+            decimal ozmFund = 0;
+            decimal ozmFundIndex = Convert.ToDecimal(1.4/100);
+            decimal unemploymentFund = 0;
+            decimal unemploymentFundIndex = Convert.ToDecimal(0.4/100);
+            decimal dzpoFund = 0;
+            decimal dzpoFundIndex = Convert.ToDecimal(2.2/100);
+            decimal healthFund = 0;
+            decimal healthFundIndex = Convert.ToDecimal(3.2/100);
+            decimal ddflFund = 0;
+            decimal ddflFundIndex = Convert.ToDecimal(10.0/100);
            
-            if (totalGrossSalary <= 2600)
+            if (totalGrossSalary <= maxTaxableSalary)
             {
-                pensionFund = totalGrossSalary * pensionFundIndex;
+                pensionFund = maxTaxableSalary * pensionFundIndex;
+                ozmFund = maxTaxableSalary * ozmFundIndex;
+                unemploymentFund = maxTaxableSalary * unemploymentFundIndex;
+                dzpoFund = maxTaxableSalary * dzpoFundIndex;
+                healthFund = maxTaxableSalary * healthFundIndex;
+                salaryDeduction = pensionFund + ozmFund + unemploymentFund + dzpoFund + healthFund;
+                totalNetSalary = totalGrossSalary - salaryDeduction;
             }
             else
             {
-                notIndexedGrossSalary = totalGrossSalary - 2600;
-                pensionFund = 2600 * pensionFundIndex;
+                pensionFund = totalGrossSalary * pensionFundIndex;
+                ozmFund = totalGrossSalary * ozmFundIndex;
+                unemploymentFund = totalGrossSalary * unemploymentFundIndex;
+                dzpoFund = totalGrossSalary * dzpoFundIndex;
+                healthFund = totalGrossSalary * healthFundIndex;
+                ddflFund = totalGrossSalary * ddflFundIndex;
+                salaryDeduction = pensionFund + ozmFund + unemploymentFund + dzpoFund + healthFund + ddflFund;
+                totalNetSalary = totalGrossSalary - salaryDeduction;
             }
 
-            decimal ozmFund = 0;
-            decimal ozmFundIndex = Convert.ToDecimal(1.4);
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Employee Salary Summary:");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"Employee Gross Salary:{totalGrossSalary:C}");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Employee Net Salary: {totalNetSalary:C}");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine($"Employee Salary Deduction: {salaryDeduction:C}");
+            Console.WriteLine($"-- Pension Fund Deduction: {pensionFund:C}");
+            Console.WriteLine($"-- OZM Fund Deduction: {ozmFund:C}");
+            Console.WriteLine($"-- Unemployment Fund Deduction: {unemploymentFund:C}");
+            Console.WriteLine($"-- DZPO Fund Deduction: {dzpoFund:C}");
+            Console.WriteLine($"-- Health Fund Deduction: {healthFund:C}");
+            Console.WriteLine($"-- DDFL Fund Deduction: {ddflFund:C}");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Press any key to continue with calculations ...");
+            Console.ReadKey();
+            #endregion
+
+            #region #3 Yearly Gross Salary Calculation
+            decimal yearlyIndexedGrossSalary = 12 * GetSalary(workExperienceFullYears, Convert.ToDecimal(grossSalary), increaseSalaryPercent);
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine($"Total Yearly Gross Salary for {workExperience} years of work experience is {yearlyIndexedGrossSalary:C}");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Press any key to continue with calculations ...");
+            Console.ReadKey();
+            #endregion
+
+            #region #4 Yearly Net Salary Calculation
+            
+            if (indexedGrossSalary <= maxTaxableSalary)
+            {
+                pensionFund = maxTaxableSalary * pensionFundIndex;
+                ozmFund = maxTaxableSalary * ozmFundIndex;
+                unemploymentFund = maxTaxableSalary * unemploymentFundIndex;
+                dzpoFund = maxTaxableSalary * dzpoFundIndex;
+                healthFund = maxTaxableSalary * healthFundIndex;
+                salaryDeduction = pensionFund + ozmFund + unemploymentFund + dzpoFund + healthFund;
+                totalNetSalary = indexedGrossSalary - salaryDeduction;
+            }
+            else
+            {
+                pensionFund = indexedGrossSalary * pensionFundIndex;
+                ozmFund = indexedGrossSalary * ozmFundIndex;
+                unemploymentFund = indexedGrossSalary * unemploymentFundIndex;
+                dzpoFund = indexedGrossSalary * dzpoFundIndex;
+                healthFund = indexedGrossSalary * healthFundIndex;
+                ddflFund = indexedGrossSalary * ddflFundIndex;
+                salaryDeduction = pensionFund + ozmFund + unemploymentFund + dzpoFund + healthFund + ddflFund;
+                totalNetSalary = indexedGrossSalary - salaryDeduction;
+            }
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Employee Salary Summary:");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"Employee Gross Salary:{totalGrossSalary:C}");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Employee Net Salary: {totalNetSalary:C}");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine($"Employee Salary Deduction: {salaryDeduction:C}");
+            Console.WriteLine($"-- Pension Fund Deduction: {pensionFund:C}");
+            Console.WriteLine($"-- OZM Fund Deduction: {ozmFund:C}");
+            Console.WriteLine($"-- Unemployment Fund Deduction: {unemploymentFund:C}");
+            Console.WriteLine($"-- DZPO Fund Deduction: {dzpoFund:C}");
+            Console.WriteLine($"-- Health Fund Deduction: {healthFund:C}");
+            Console.WriteLine($"-- DDFL Fund Deduction: {ddflFund:C}");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Press any key to continue with calculations ...");
+            Console.ReadKey();
+
+            decimal yearlyIndexedNetSalary = 12 * totalNetSalary;
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine($"Total Yearly Net Salary for {workExperience} years of work experience is {yearlyIndexedNetSalary:C}");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Press any key to continue with calculations ...");
+            Console.ReadKey();
             #endregion
 
             #endregion
@@ -318,6 +426,32 @@ namespace CSharp_HomeWork_02
                                                 System.Globalization.NumberFormatInfo.InvariantInfo,
                                                 out realNumber);
             return isRealNumber;
+        }
+
+        /// <summary>
+        /// Gets Salary Indexation Recursively .
+        /// </summary>
+        /// <param name="years">The years.</param>
+        /// <param name="salary">The salary.</param>
+        /// <param name="increasePercent">The increase percent.</param>
+        /// <returns></returns>
+        public static decimal GetSalary(int years, decimal salary, double increasePercent)
+        {
+            if (years < 1)
+            {
+                return salary;
+            }
+            else
+            {
+                salary *= Convert.ToDecimal(1 + increasePercent / 100);
+                salary = GetSalary(--years, salary, increasePercent);
+            }
+            return salary;
+        }
+
+        public static void taxRate()
+        {
+            //TO DO: Calculate taxRate here
         }
 
     }
