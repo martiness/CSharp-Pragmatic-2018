@@ -81,9 +81,10 @@ namespace Chess
             while(true)
             {
                 DrawBoard(board);
-       
+                WriteGeneralHelp();
+
                 Command command;
-                if (!NextCommand(currentPlayer, out command))
+                if (!TryGetCommand(currentPlayer, out command))
                     continue;
 
                 switch (command.Action)
@@ -196,8 +197,8 @@ namespace Chess
         {
             // substracting characters will return a number, because each 
             // character is represented as number / position in Unicode table
-            Cell fromCell = board[from.Y, char.ToLower(from.X) - 'a'];
-            Cell toCell = board[to.Y, char.ToLower(to.X) - 'a'];
+            Cell fromCell = board[board.GetLength(0) - from.Y, char.ToLower(from.X) - 'a'];
+            Cell toCell = board[board.GetLength(0) - to.Y, char.ToLower(to.X) - 'a'];
 
 
 
@@ -280,16 +281,17 @@ namespace Chess
             return false;
         }
 
-        private static bool NextCommand(Player currentPlayer, out Command command)
+        private static bool TryGetCommand(Player currentPlayer, out Command command)
         {
             Console.Write($"{currentPlayer}:");
 
-            string input = Console.ReadLine().Trim();
+            string input = Console.ReadLine().Trim().ToLower();
 
+            // Check if any input is provided 
             if (string.IsNullOrWhiteSpace(input))
             {
                 WriteError("Unrecognized command!");
-                WriteError("Expects [M]ove, [U]ndo, [C]astling [K]ing, [C]astling [Q]ueen or [Q]uit");
+                WriteGeneralHelp();
 
                 command = default(Command);
                 return false;
@@ -299,41 +301,73 @@ namespace Chess
 
             if (cmd == 'q' && input.Length == 1)
             {
-                command = new Command() { Action = 'q' };
+                command = new Command() { Action = cmd };
                 return true;
             }
 
             if (cmd == 'u' && input.Length == 1)
             {
-                command = new Command() { Action = 'u' };
+                command = new Command() { Action = cmd };
                 return true;
             }
 
+            // Example 'm c7 c6'
             if (cmd == 'm' /* TODO: more condition for homework :) */)
             {
                 // TODO: parsing (splitting the string) to be implemented for homework :)
 
-                string[] parts = input.Split(' ');
+                string[] parameters = input.Substring(1).Trim().Split(' ');
 
-                string fromPart = parts[1];
-                char fromPartX = fromPart[0];
-                byte fromPartY = Convert.ToByte(fromPart[1]);
+                // Verify for first letter is Character and second Character is a digit 
+                if (!(char.IsLetter(parameters[0][0])) || (char.IsDigit(parameters[0][1]))
+                 || !(char.IsLetter(parameters[1][0])) || (char.IsDigit(parameters[1][1])))
+                {
+                    WriteError("Unrecognized command!");
+                    WriteError("Expects M XY XY (Example: M A2 A3)");
 
-                string toPart = parts[2];
-                char toPartX = toPart[0];
-                byte toPartY = Convert.ToByte(toPart[1]);
+                    command = new Command();
+                    return true;
+                }
 
-                CellAddress from = new CellAddress() { X = fromPartX, Y =  fromPartY};
-                CellAddress to = new CellAddress() { X = toPartX, Y = toPartY };
+
+                // Verify 
+                if (!(parameters[0][0] >= 'a' && parameters[0][0] <= 'h') ||
+                    !(parameters[1][0] >= 'a' && parameters[1][0] <= 'h'))
+                {
+                    WriteError("Unrecognized command!");
+                    WriteError("Expects M XY XY (Example: M A2 A3)");
+
+                    command = new Command();
+                    return true;
+
+                }
+
+                // Verify
+                if (!(parameters[0][1] >= 1 && parameters[0][1] <= 8) ||
+                    !(parameters[1][1] >= 1 && parameters[1][1] <= 8))
+                {
+                    WriteError("Unrecognized command!");
+                    WriteError("Expects M XY XY (Example: M A2 A3)");
+
+                    command = new Command();
+                    return true;
+
+                }
+
+                CellAddress from = new CellAddress() { X = parameters[0][0], Y = byte.Parse(parameters[0][1].ToString()) };
+                CellAddress to = new CellAddress() { X = parameters[1][0], Y = byte.Parse(parameters[1][1].ToString()) };
 
                 command = new Command() { Action = cmd, From = from, To = to };
                 return true;
             }
 
+
+            // Example: 'c k' - castling king or 'c q' - castling queen 
             if (cmd == 'c')
             {
                 string[] parts = input.Split(' ');
 
+                // Check is there only two letters divided by space 
                 if (parts.Length != 2)
                 {
                     WriteError("Unrecognized command!");
@@ -342,6 +376,8 @@ namespace Chess
                     return false;
                 }
 
+                // Check that we have two parts, that are 1 letter long
+                // and the second part is either 'q' or 'k'
                 if (parts[1].Length == 1 && (parts[1][0] == 'q' || parts[1][0] == 'k'))
                 {
                     if (parts[1][0] == 'q')
@@ -356,6 +392,7 @@ namespace Chess
                     }
                 }
 
+                // If we reach this point we don't know hot to handle the command
                 WriteError("Unrecognized command!");
                 WriteError("Expects [C]astling [K]ing or [C]astling [Q]ueen");
                 command = default(Command);
@@ -363,7 +400,7 @@ namespace Chess
             }
 
             WriteError("Unrecognized command!");
-            WriteError("Expects [M]ove, [U]ndo, [C]astling [K]ing, [C]astling [Q]ueen or [Q]uit");
+            WriteGeneralHelp();
 
             command = default(Command);
             return false;
@@ -397,10 +434,24 @@ namespace Chess
             {
                 // each row has top border
                 Console.WriteLine("  +---+---+---+---+---+---+---+---+");
-                Console.Write($"{board.GetLength(1) - i} ");
+
+                // reverse row indexes to match real world chess
+                Console.Write($"{board.GetLength(0) - i} ");
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
-                    Console.Write("| {0} ", figureMap[board[i,j].Figure]);
+                    Console.Write("|");
+
+                    // TODO: Add Change Background Color 
+
+                    var currentForgraund = Console.ForegroundColor;
+
+                    Console.ForegroundColor = (board[i, j].Player == Player.Player1) ? 
+                                              ConsoleColor.Green : ConsoleColor.Blue;
+
+                    Console.Write(" {0} ", figureMap[board[i,j].Figure]);
+
+                    Console.ForegroundColor = currentForgraund;
+
                 }
 
                 Console.WriteLine($"| {board.GetLength(1) - i}");
@@ -415,111 +466,92 @@ namespace Chess
         {
             var initialBoard = new Cell[8, 8];
 
-            // add player 1 figures
-            initialBoard[0, 0] = new Cell
-            {
-                Player = Player.Player1,
-                Figure = Figure.Rook
-            };
-            initialBoard[0, 1] = new Cell
-            {
-                Player = Player.Player1,
-                Figure = Figure.Knight
-            };
-            initialBoard[0, 2] = new Cell
-            {
-                Player = Player.Player1,
-                Figure = Figure.Bishop
-            };
-            initialBoard[0, 3] = new Cell
-            {
-                Player = Player.Player1,
-                Figure = Figure.King
-            };
-            initialBoard[0, 4] = new Cell
-            {
-                Player = Player.Player1,
-                Figure = Figure.Queen
-            };
-            initialBoard[0, 5] = new Cell
-            {
-                Player = Player.Player1,
-                Figure = Figure.Bishop
-            };
-            initialBoard[0, 6] = new Cell
-            {
-                Player = Player.Player1,
-                Figure = Figure.Knight
-            };
-            initialBoard[0, 7] = new Cell
-            {
-                Player = Player.Player1,
-                Figure = Figure.Rook
-            };
+            int pawnsRowPlayer1 = 1;
+            int pawnsRowPlayer2 = 6;
 
-            // add player 1 pawns
-            for (int row = 1, col = 0; col < initialBoard.GetLength(0); col++)
-            {
-                initialBoard[row, col] = new Cell
-                {
-                    Player = Player.Player1,
-                    Figure = Figure.Pawn
-                };
-            }
+            // add player 1 figures
+            InitPlayerFigures(initialBoard, Player.Player1, pawnsRowPlayer1);
 
             // add player 2 figures
-            initialBoard[7, 0] = new Cell
+            InitPlayerFigures(initialBoard, Player.Player2, pawnsRowPlayer2);
+
+            return initialBoard;
+        }
+
+        public static void InitPlayerFigures(Cell[,] board, Player player, int pawnRaw)
+        {
+            int backRaw = (player == Player.Player1) ? (pawnRaw - 1) : (pawnRaw + 1);
+
+            // Add Player Rook
+            board[backRaw, 0] = new Cell
             {
-                Player = Player.Player1,
-                Figure = Figure.Rook
-            };
-            initialBoard[7, 1] = new Cell
-            {
-                Player = Player.Player1,
-                Figure = Figure.Knight
-            };
-            initialBoard[7, 2] = new Cell
-            {
-                Player = Player.Player1,
-                Figure = Figure.Bishop
-            };
-            initialBoard[7, 3] = new Cell
-            {
-                Player = Player.Player1,
-                Figure = Figure.Queen
-            };
-            initialBoard[7, 4] = new Cell
-            {
-                Player = Player.Player1,
-                Figure = Figure.King
-            };
-            initialBoard[7, 5] = new Cell
-            {
-                Player = Player.Player1,
-                Figure = Figure.Bishop
-            };
-            initialBoard[7, 6] = new Cell
-            {
-                Player = Player.Player1,
-                Figure = Figure.Knight
-            };
-            initialBoard[7, 7] = new Cell
-            {
-                Player = Player.Player1,
+                Player = player,
                 Figure = Figure.Rook
             };
 
-            // add player 2 pawns
-            for (int row = 6, col = 0; col < initialBoard.GetLength(0); col++)
+            // Add Player Knight
+            board[backRaw, 1] = new Cell
             {
-                initialBoard[row, col] = new Cell
+                Player = player,
+                Figure = Figure.Knight
+            };
+
+            // Add Player Bishop
+            board[backRaw, 2] = new Cell
+            {
+                Player = player,
+                Figure = Figure.Bishop
+            };
+
+            // Add Player Queen
+            board[backRaw, 3] = new Cell
+            {
+                Player = player,
+                Figure = (player == Player.Player1) ? (Figure.Queen) : (Figure.King)
+            };
+
+            // Add Player King
+            board[backRaw, 4] = new Cell
+            {
+                Player = player,
+                Figure = (player == Player.Player1) ? (Figure.King) : (Figure.Queen)
+            };
+
+            // Add Player Bishop
+            board[backRaw, 5] = new Cell
+            {
+                Player = player,
+                Figure = Figure.Bishop
+            };
+
+            // Add Player Knight
+            board[backRaw, 6] = new Cell
+            {
+                Player = player,
+                Figure = Figure.Knight
+            };
+
+            // Add Player Rook
+            board[backRaw, 7] = new Cell
+            {
+                Player = player,
+                Figure = Figure.Rook
+            };
+
+            // Add Player Pawns
+            for (int row = pawnRaw, col = 0; col < board.GetLength(0); col++)
+            {
+                board[row, col] = new Cell
                 {
-                    Player = Player.Player2,
+                    Player = player,
                     Figure = Figure.Pawn
                 };
             }
+        }
 
-            return initialBoard;
+        private static void WriteGeneralHelp()
+        {
+            WriteError("Expects [M]ove, [U]ndo, [C]astling [K]ing, [C]astling [Q]ueen or [Q]uit");
         }
     }
 }
