@@ -199,6 +199,8 @@ namespace Chess
             Cell fromCell = board[from.Y, char.ToLower(from.X) - 'a'];
             Cell toCell = board[to.Y, char.ToLower(to.X) - 'a'];
 
+
+
             // check if the cell from which we are trying 
             // to move a figure contains any figure             
             if (fromCell.Figure == Figure.None)
@@ -310,8 +312,19 @@ namespace Chess
             if (cmd == 'm' /* TODO: more condition for homework :) */)
             {
                 // TODO: parsing (splitting the string) to be implemented for homework :)
-                CellAddress from = new CellAddress() { X = 'D', Y = 1 };
-                CellAddress to = new CellAddress() { X = 'D', Y = 2 };
+
+                string[] parts = input.Split(' ');
+
+                string fromPart = parts[1];
+                char fromPartX = fromPart[0];
+                byte fromPartY = Convert.ToByte(fromPart[1]);
+
+                string toPart = parts[2];
+                char toPartX = toPart[0];
+                byte toPartY = Convert.ToByte(toPart[1]);
+
+                CellAddress from = new CellAddress() { X = fromPartX, Y =  fromPartY};
+                CellAddress to = new CellAddress() { X = toPartX, Y = toPartY };
 
                 command = new Command() { Action = cmd, From = from, To = to };
                 return true;
