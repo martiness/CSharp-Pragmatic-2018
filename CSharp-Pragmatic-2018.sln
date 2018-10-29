@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp-HomeWork-02 v2", "Ho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp-ChessHomeWork", "Home Work\Home Work 03\Chess\CSharp-ChessHomeWork.csproj", "{E8E7CD3E-57E8-4E24-ABCD-BC6DC28B2EED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWorkObjects", "Home Work\Home Work 04\HomeWorkObjects\HomeWorkObjects.csproj", "{F2C6D1CB-1D17-4152-9B0F-E69832A88956}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +111,10 @@ Global
 		{E8E7CD3E-57E8-4E24-ABCD-BC6DC28B2EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8E7CD3E-57E8-4E24-ABCD-BC6DC28B2EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8E7CD3E-57E8-4E24-ABCD-BC6DC28B2EED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2C6D1CB-1D17-4152-9B0F-E69832A88956}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2C6D1CB-1D17-4152-9B0F-E69832A88956}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2C6D1CB-1D17-4152-9B0F-E69832A88956}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2C6D1CB-1D17-4152-9B0F-E69832A88956}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -138,6 +144,7 @@ Global
 		{C92A8812-8616-4717-B61A-A6C3F0F5FF0C} = {4BAB70DD-368A-4390-8594-7E287B1E473B}
 		{FA1EDB62-584F-4B22-A079-11A75131E934} = {4BAB70DD-368A-4390-8594-7E287B1E473B}
 		{E8E7CD3E-57E8-4E24-ABCD-BC6DC28B2EED} = {33A021B4-08B6-49BB-B319-CE953E143DE4}
+		{F2C6D1CB-1D17-4152-9B0F-E69832A88956} = {9CA0086C-D0D5-473D-8D48-DCDCE8FD17EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5C6A28B7-31EC-4A6F-BF02-BDC05DE7C69C}
