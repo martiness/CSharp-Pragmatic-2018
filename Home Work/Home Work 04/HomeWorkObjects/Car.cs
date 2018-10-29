@@ -66,16 +66,15 @@
             this.carPrice = 0;
         }
 
-        public Car(string carBrand)
+        public Car(string carBrand) : this()
         {
             this.carBrand = carBrand;
             // How to add Car() to initialize other properties???
         }
 
-        public Car(string carBrand, string carModel)
+        public Car(string carBrand, string carModel) : this(carBrand)
         {
             // How to use Car() to initialize already initialized properties???
-            this.carBrand = carBrand;
             this.carModel = carModel;
 
         }
