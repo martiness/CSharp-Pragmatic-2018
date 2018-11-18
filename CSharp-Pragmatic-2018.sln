@@ -123,9 +123,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Homework5", "Home Work\Home
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wallet.Core", "Home Work\Home Work 05\Wallet.Core\Wallet.Core.csproj", "{B0543122-A510-424E-8CB1-CD27BCBA822A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWork06-Generics", "HomeWork06\HomeWork06-Generics.csproj", "{E3B1A0F2-250A-4649-8E73-5411282A1895}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWork06-Generics", "Home Work\Home Work 06\HomeWork06-Generics\HomeWork06-Generics.csproj", "{E3B1A0F2-250A-4649-8E73-5411282A1895}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWork06-Delegates", "HomeWork06-Delegates\HomeWork06-Delegates.csproj", "{FED077DC-6056-4E92-AD24-3F7173165BFB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWork06-Delegates", "Home Work\Home Work 06\HomeWork06-Delegates\HomeWork06-Delegates.csproj", "{FED077DC-6056-4E92-AD24-3F7173165BFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
