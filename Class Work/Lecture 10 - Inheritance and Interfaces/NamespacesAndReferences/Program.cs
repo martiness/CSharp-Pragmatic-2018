@@ -1,6 +1,5 @@
 ﻿using System;
 using Progress.MyIncredibleProduct.Calculus;
-using Progress.Calculus;
 
 namespace Progress.MyIncredibleProduct
 {

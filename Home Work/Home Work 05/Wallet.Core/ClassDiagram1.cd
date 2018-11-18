@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MyWalletProject02.InputValidation">
+    <Position X="6.25" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>InputValidation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyWalletProject02.Salary">
+    <Position X="8.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAACIAAAAAAAAQAAAA=</HashCode>
+      <FileName>Incomes\Salary.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyWalletProject02.Incomes">
+    <Position X="8.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Incomes\Incomes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyWalletProject02.Expenses">
+    <Position X="10.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Expenses\Expenses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyWalletProject02.DailyExpenses">
+    <Position X="10.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Expenses\DailyExpenses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyWalletProject02.Wallet">
+    <Position X="13.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAIAQAAAARAAAAAAAAA=</HashCode>
+      <FileName>Wallet\Wallet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyWalletProject02.EntityBase">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAEAAAAAACAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>EntityBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
